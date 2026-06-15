@@ -448,7 +448,30 @@ async function serveNcmApi(options) {
   return appExt
 }
 
-module.exports = {
-  serveNcmApi,
-  getModulesDefinitions,
+let _cachedApp
+let _generateConfigAttempted = false
+
+const defaultHandler = async (req, res) => {
+  if (!_cachedApp) {
+    _cachedApp = await constructServer()
+    if (!_generateConfigAttempted) {
+      _generateConfigAttempted = true
+      try {
+        const generateConfig = require('./generateConfig')
+        await generateConfig()
+      } catch (err) {
+        console.warn(
+          'generateConfig failed (non-fatal):',
+          err && err.message ? err.message : err,
+        )
+      }
+    }
+  }
+  return _cachedApp(req, res)
 }
+
+defaultHandler.serveNcmApi = serveNcmApi
+defaultHandler.getModulesDefinitions = getModulesDefinitions
+defaultHandler.constructServer = constructServer
+
+module.exports = defaultHandler
