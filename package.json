@@ -8,7 +8,6 @@
     "test": "mocha -r intelli-espower-loader -t 60000 server.test.js main.test.js --exit",
     "lint": "eslint \"**/*.{js,ts}\"",
     "lint-fix": "eslint --fix \"**/*.{js,ts}\"",
-    "prepare": "husky install",
     "pkgwin": "pkg . -t node18-win-x64 -C GZip -o precompiled/app",
     "pkglinux": "pkg . -t node18-linux-x64 -C GZip -o precompiled/app",
     "pkgmacos": "pkg . -t node18-macos-x64 -C GZip -o precompiled/app"
@@ -42,13 +41,7 @@
   "main": "main.js",
   "types": "./interface.d.ts",
   "engines": {
-    "node": ">=12"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
+    "node": ">=20"
   },
   "author": "MoeFurina",
   "license": "MIT",
@@ -95,9 +88,7 @@
     "eslint-plugin-html": "^8.1.4",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.6.0",
-    "husky": "^9.1.7",
     "intelli-espower-loader": "^1.1.0",
-    "lint-staged": "^16.4.0",
     "mocha": "^11.7.5",
     "nodemon": "^3.1.14",
     "pkg": "^5.8.1",
